@@ -35,3 +35,4 @@ route::get('/soft_delete/{id}', 'MessageController@softDelete');
 
 route::get('/inbox', 'InboxController@index');
 route::post('/addmessage', 'InboxController@message');
+route::get('/conver','InboxController@conversation');

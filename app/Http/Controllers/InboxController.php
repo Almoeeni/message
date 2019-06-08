@@ -79,4 +79,10 @@ class InboxController extends Controller
     }
 
 
+    public function conversation()
+    {
+        return view('inbox.conversation');
+    }
+
+
 }
