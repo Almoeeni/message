@@ -68,10 +68,6 @@ class InboxController extends Controller
         $participant->save();
         }
 
-
-
-
-
         $response=array();
         $response['code']=200;
         $response['message']='Message has been send successfully';
@@ -81,6 +77,10 @@ class InboxController extends Controller
 
     public function conversation()
     {
+         $id= Auth::id();
+
+         $threads = Participant::where('user_id' ,'=',$id)->toArray();
+         dd($threads);
         return view('inbox.conversation');
     }
 
