@@ -39,6 +39,7 @@ class InboxController extends Controller
 
         $thread = new thread();
         $thread->subject = $inbox['subject'];
+        $thread->user_id = Auth::id();
         $thread->save();
       
         $message = new Message();      
@@ -79,9 +80,22 @@ class InboxController extends Controller
     {
          $id= Auth::id();
 
-         $threads = Participant::where('user_id' ,'=',$id)->toArray();
-         dd($threads);
-        return view('inbox.conversation');
+     //    $threads = Participant::where('user_id' ,'=',$id)->toArray();
+            $threads =Participant::select('threads.*','users.id','users.name' ,'participants.unread')
+                   ->LeftJoin('threads', 'participants.thread_id' ,'=', 'threads.id')                    
+                    ->leftJoin('users', 'threads.user_id','=','users.id')
+                    //->leftJoin('employee_details', 'users.id','=','employee_details.user_id') 
+                    ->where('participants.user_id','=',$id);
+         $threads= $threads->orderBy('threads.id', 'desc')->get();
+        // dd($threads);
+        return view('inbox.conversation',compact('threads'));
+        //  dd($threads);
+        // return view('inbox.conversation');
+    }
+
+    public function talk($id)
+    {
+        dd($id);
     }
 
 
